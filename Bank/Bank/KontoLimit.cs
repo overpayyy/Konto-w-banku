@@ -1,14 +1,15 @@
 ﻿namespace Bank
 {
-    public class KontoPlus : Konto
+    public class KontoLimit
     {
+        private Konto konto;
         private decimal jednorazowyLimitDebetowy;
         private bool debetWykorzystany = false;
 
         // Konstruktor dwuargumentowy z limitem debetowym
-        public KontoPlus(string klient, decimal balansNaStart = 0, decimal limitDebetowy = 0)
-            : base(klient, balansNaStart)
+        public KontoLimit(string klient, decimal balansNaStart = 0, decimal limitDebetowy = 0)
         {
+            konto = new Konto(klient, balansNaStart);
             jednorazowyLimitDebetowy = limitDebetowy;
         }
 
@@ -25,24 +26,24 @@
             jednorazowyLimitDebetowy = nowyLimit;
         }
 
-        // Nadpisana właściwość Balans
-        public new decimal Balans => base.Balans + (debetWykorzystany ? 0 : jednorazowyLimitDebetowy);
+        // Właściwość do odczytu balansu
+        public decimal Balans => konto.Balans + (debetWykorzystany ? 0 : jednorazowyLimitDebetowy);
 
-        // Nadpisana metoda do wpłaty środków
-        public new void Wplata(decimal kwota)
+        // Metoda do wpłaty środków
+        public void Wplata(decimal kwota)
         {
-            base.Wplata(kwota);
-            if (base.Balans >= 0)
+            konto.Wplata(kwota);
+            if (konto.Balans >= 0)
             {
                 debetWykorzystany = false;
-                OdblokujKonto();
+                konto.OdblokujKonto();
             }
         }
 
-        // Nadpisana metoda do wypłaty środków
-        public new void Wyplata(decimal kwota)
+        // Metoda do wypłaty środków
+        public void Wyplata(decimal kwota)
         {
-            if (Zablokowane)
+            if (konto.Zablokowane)
             {
                 throw new InvalidOperationException("Konto jest zablokowane.");
             }
@@ -56,10 +57,10 @@
             }
             else
             {
-                base.Wyplata(kwota);
-                if (base.Balans < 0)
+                konto.Wyplata(kwota);
+                if (konto.Balans < 0)
                 {
-                    BlokujKonto();
+                    konto.BlokujKonto();
                 }
             }
         }
