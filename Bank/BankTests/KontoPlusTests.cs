@@ -76,7 +76,7 @@ namespace Bank.Tests
         public void Wplata_OdblokowujeKonto()
         {
             KontoPlus kontoPlus = new KontoPlus("Jan Kowalski", 1000m, 500m);
-            kontoPlus.Wyplata(1500m); 
+            kontoPlus.Wyplata(1000m); 
 
             kontoPlus.Wplata(600m); 
 

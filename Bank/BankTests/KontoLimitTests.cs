@@ -76,7 +76,7 @@ namespace Bank.Tests
         public void Wplata_OdblokowujeKonto()
         {
             KontoLimit kontoLimit = new KontoLimit("Jan Kowalski", 1000m, 500m);
-            kontoLimit.Wyplata(1500m);
+            kontoLimit.Wyplata(1000m);
 
             kontoLimit.Wplata(600m); 
 

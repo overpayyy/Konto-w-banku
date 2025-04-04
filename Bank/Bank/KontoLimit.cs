@@ -13,6 +13,7 @@
             jednorazowyLimitDebetowy = limitDebetowy;
         }
 
+
         // Właściwość do odczytu limitu debetowego
         public decimal JednorazowyLimitDebetowy => jednorazowyLimitDebetowy;
 
